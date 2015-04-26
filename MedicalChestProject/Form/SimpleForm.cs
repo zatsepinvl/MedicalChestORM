@@ -16,7 +16,7 @@ namespace MedicalChestProject
         {
             InitializeComponent();
         }
-        protected MedicalChestManeger DManeger = MedicalChestManeger.Instance;
+        protected MedicalChestManeger DbManeger = MedicalChestManeger.Instance;
         private void MainSettingsButtonClick(object sender, EventArgs e)
         {
             FullSettingsForm settingsForm = new FullSettingsForm();
@@ -28,10 +28,10 @@ namespace MedicalChestProject
         }
         protected virtual void Init()
         {
-            statusLabel.Text = DManeger.State;
-            DManeger.ErrorSend += DManegerErrorSend;
-            DManeger.MessageSend += DManegerMessageSend;
-            DManeger.StateChange += DManegerStateChange;
+            statusLabel.Text = DbManeger.State;
+            DbManeger.ErrorSend += DManegerErrorSend;
+            DbManeger.MessageSend += DManegerMessageSend;
+            DbManeger.StateChange += DManegerStateChange;
         }
         private void DManegerStateChange(string obj)
         {

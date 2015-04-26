@@ -69,8 +69,18 @@ namespace MedicalChestProject
             return false;
         }
 
+        public T this[int index]
+        {
+            get { return data[index]; }
+        }
         protected virtual void OnItemAdded(T item) { if (ItemAdded != null) { ItemAdded(item); } }
         protected virtual void OnItemRemoved(T item) { if (ItemRemoved != null) { ItemRemoved(item); } }
         protected virtual void OnItemUpdate(T item) { if (ItemUpdated != null) { ItemUpdated(item); } }
+
+        public void LoadData(List<T> data)
+        {
+            this.data = data;
+        }
+
     }
 }

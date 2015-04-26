@@ -6,6 +6,7 @@ namespace MedicalChestProject
     [Table]
     public class MUser
     {
+        [Browsable(false)]
         [Column(IsPrimaryKey=true, Name="user_id")]
         public int UserId { get; set; }
 

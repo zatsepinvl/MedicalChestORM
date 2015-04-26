@@ -30,6 +30,23 @@ namespace MedicalChestProject
             UpdateList = new List<TTable>();
             InsertList = new List<TTable>();
             DeleteList = new List<TTable>();
+
+            Data.ItemAdded += DataItemAdded;
+            Data.ItemUpdated += DataItemUpdated;
+            Data.ItemRemoved += DataItemRemoved;
+        }
+
+        private void DataItemRemoved(TTable obj)
+        {
+            DeleteList.Add(obj);
+        }
+        private void DataItemUpdated(TTable obj)
+        {
+            UpdateList.Add(obj);
+        }
+        private void DataItemAdded(TTable obj)
+        {
+            InsertList.Add(obj);
         }
 
         public abstract void LoadAll();

@@ -19,7 +19,7 @@ namespace MedicalChestProject
             {
                 var query = from u in database.MUser
                             select u;
-                Data = query.ToList<MUser>();
+                Data.LoadData(query.ToList<MUser>());
                 DataLoaded = true;
                 int i=1;
                 foreach(MUser u in Data)

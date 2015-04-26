@@ -25,14 +25,10 @@ namespace MedicalChestProject
             SingUpForPublisher(new ErrorMessageLogger<string>[] { Users });
         }
 
-        public List<MUser> GetUsers()
+        public DataCollection<MUser> GetUsers()
         {
             return Users.GetData();
         }
 
-        public void UpdateUsers()
-        {
-            Users.SaveChanges();
-        }
     }
 }

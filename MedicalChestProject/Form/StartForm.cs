@@ -17,7 +17,7 @@ namespace MedicalChestProject
         {
             InitializeComponent();
         }
-        List<MUser> users;
+        DataCollection<MUser> users;
         private void StartFormLoad(object sender, EventArgs e)
         {
         }
@@ -25,15 +25,16 @@ namespace MedicalChestProject
         protected override void Init()
         {
             base.Init();
-            users = DManeger.GetUsers();
+            users = DbManeger.GetUsers();
             LoadUsers();
         }
         private void LoadUsers()
         {
             userComboBox.Items.Clear();
+            int i = 1;
             foreach (MUser u in users)
             {
-                userComboBox.Items.Add(u.UserId + ". " + u.Name + " " + u.Surname);
+                userComboBox.Items.Add(i++ + ". " + u.Name + " " + u.Surname);
             }
         }
         protected override void AddButtonClick(object sender, EventArgs e)
@@ -48,9 +49,7 @@ namespace MedicalChestProject
         }
         protected override void SaveButtonClick(object sender, EventArgs e)
         {
-            MUsers musers = DManeger.Users;
-            musers.Data[0].Name = "VOVAN";
-            musers.Update();
+            DbManeger.Users.SaveChanges();
         }
     }
 

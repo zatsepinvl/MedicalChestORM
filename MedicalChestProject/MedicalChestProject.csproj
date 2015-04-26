@@ -74,7 +74,7 @@
     </Compile>
     <Compile Include="Maneger\MedicalChestManeger.cs" />
     <Compile Include="Templates\Database.cs" />
-    <Compile Include="Templates\DataTable.cs" />
+    <Compile Include="Templates\DataCollection.cs" />
     <Compile Include="Templates\Singleton.cs" />
     <Compile Include="Form\StartForm.cs">
       <SubType>Form</SubType>
