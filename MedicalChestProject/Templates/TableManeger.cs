@@ -8,14 +8,14 @@ namespace MedicalChestProject
     public abstract class TableManeger<TDatabase, TTable> : ErrorMessageLogger<string>
         where TDatabase : DataConnection, new()
     {
-        public List<TTable> Data { get; set; }
+        public DataCollection<TTable> Data { get; set; }
         protected List<TTable> UpdateList { get; set; }
         protected List<TTable> InsertList { get; set; }
         protected List<TTable> DeleteList { get; set; }
-
+        
         public bool DataLoaded { get; protected set; }
 
-        public virtual List<TTable> GetData()
+        public virtual DataCollection<TTable> GetData()
         {
             if (!DataLoaded)
             {
@@ -26,7 +26,7 @@ namespace MedicalChestProject
 
         protected virtual void Init()
         {
-            Data = new List<TTable>();
+            Data = new DataCollection<TTable>();
             UpdateList = new List<TTable>();
             InsertList = new List<TTable>();
             DeleteList = new List<TTable>();
@@ -74,7 +74,10 @@ namespace MedicalChestProject
         }
         public virtual void Clear()
         {
-            Data = new List<TTable>();
+            Data.Clear();
+            InsertList.Clear();
+            DeleteList.Clear();
+            UpdateList.Clear();
         }
         public virtual void Reload()
         {
