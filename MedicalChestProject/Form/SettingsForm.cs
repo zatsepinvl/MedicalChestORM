@@ -41,6 +41,11 @@ namespace MedicalChestProject
             treeViewFormatter = new MySqlDatabaseTreeViewFormatter(treeView1, dataGridView1);
             treeViewFormatter.ErrorSend += new Action<string>(ErrorSend);
             this.FormClosing += FullSettingsForm_FormClosing;
+
+            foreach (ErrorMessageLogger<string> eml in MedicalChestManeger.Instance.Loggers)
+            {
+                listBox1.Items.Add(eml.ToString());
+            }
         }
 
         void FullSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -71,7 +76,7 @@ namespace MedicalChestProject
 
         private void button1_Click(object sender, EventArgs e)
         {
-           dataGridView1.DataSource=connectionManeger.GetDataTable(textBox1.Text);
+            dataGridView1.DataSource = connectionManeger.GetDataTable(textBox1.Text);
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
@@ -95,5 +100,37 @@ namespace MedicalChestProject
         {
 
         }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Add("Errors", "Errors");
+            dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            foreach (string s in MedicalChestManeger.Instance.Loggers[listBox1.SelectedIndex].ErrorList)
+            {
+                dataGridView1.Rows.Add(s);
+            }
+        }
+
+        private void refreshLogButton_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = null;
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+            dataGridView1.Columns.Add("Errors", "Errors");
+            dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            foreach (string s in MedicalChestManeger.Instance.Loggers[listBox1.SelectedIndex].ErrorList)
+            {
+                dataGridView1.Rows.Add(s);
+            }
+        }
+
+        private void tabControl1_TabIndexChanged(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+        }
+
     }
 }

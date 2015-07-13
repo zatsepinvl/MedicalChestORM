@@ -9,30 +9,40 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using LinqToDB.DataProvider.MySql;
 
+
 namespace MedicalChestProject
 {
-    public partial class StartForm : SimpleForm
+    public partial class StartForm : SimpleForm<MUsers, MUser>
     {
         public StartForm()
         {
             InitializeComponent();
         }
-        DataCollection<MUser> users;
+
         private void StartFormLoad(object sender, EventArgs e)
         {
+            Init();
+            InitControls();
         }
-
         protected override void Init()
         {
+            formManeger = new FormOrganizator(this);
+            tableManeger = DbManeger.Users;
             base.Init();
-            users = DbManeger.GetUsers();
-            LoadUsers();
         }
-        private void LoadUsers()
+        protected override void InitControls()
         {
+            base.InitControls();
+            goBackButton.Visible = false;
+            RefreshData();
+        }
+        
+        protected override void RefreshData()
+        {
+            userComboBox.SelectedIndex = -1;
             userComboBox.Items.Clear();
             int i = 1;
-            foreach (MUser u in users)
+            foreach (MUser u in tableManeger.GetData())
             {
                 userComboBox.Items.Add(i++ + ". " + u.Name + " " + u.Surname);
             }
@@ -43,14 +53,40 @@ namespace MedicalChestProject
             AddItemForm addForm  =new AddItemForm(m);
             if(addForm.ShowDialog()==DialogResult.OK)
             {
-                users.Add(m);
-                LoadUsers();
+                tableManeger.Add(m);
+                RefreshData();
             }
         }
         protected override void SaveButtonClick(object sender, EventArgs e)
         {
-            DbManeger.Users.SaveChanges();
+            tableManeger.SaveChanges();
+            RefreshData();
         }
+        protected override void DeleteButtonClick(object sender, EventArgs e)
+        {
+            int index = this.userComboBox.SelectedIndex;
+            if(index>-1)
+            {
+                if (MessageBox.Show("Выдйствительно хотите удалить запись?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    tableManeger.Remove(tableManeger.GetData()[index]);
+                    RefreshData();
+                }
+            }
+        }
+
+        private void LogInButtonClick(object sender, EventArgs e)
+        {
+            if(userComboBox.SelectedIndex>-1)
+            {
+                BodyForm body = new BodyForm(tableManeger.GetData()[userComboBox.SelectedIndex]);
+                formManeger.GoNext(body);
+            }
+        }
+
+
+
+
     }
 
 }

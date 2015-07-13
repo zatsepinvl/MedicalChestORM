@@ -58,22 +58,74 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form\DrugDiseaseEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DrugDiseaseEditForm.Designer.cs">
+      <DependentUpon>DrugDiseaseEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DiseaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DiseaseForm.Designer.cs">
+      <DependentUpon>DiseaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DrugDiseaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DrugDiseaseForm.Designer.cs">
+      <DependentUpon>DrugDiseaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LD.cs" />
+    <Compile Include="TableManeger\Diseases.cs" />
+    <Compile Include="TableManeger\IndexDependentTableManeger.cs" />
+    <Compile Include="TableManeger\DrugDiseases.cs" />
+    <Compile Include="TableManeger\AppTypes.cs" />
+    <Compile Include="Form\EditDrugForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\EditDrugForm.Designer.cs">
+      <DependentUpon>EditDrugForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TableManeger\Storages.cs" />
+    <Compile Include="Table\ApplicationType.cs" />
+    <Compile Include="Form\DrugsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DrugsForm.Designer.cs">
+      <DependentUpon>DrugsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Table\Disease.cs" />
+    <Compile Include="Table\Doctor.cs" />
+    <Compile Include="Table\DoctorsPrescription.cs" />
+    <Compile Include="Table\DrugDisease.cs" />
+    <Compile Include="Table\Simptom.cs" />
+    <Compile Include="TableManeger\Drugs.cs" />
+    <Compile Include="Table\Storage.cs" />
+    <Compile Include="Table\Drug.cs" />
+    <Compile Include="Form\FormManeger.cs" />
+    <Compile Include="Form\BodyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\BodyForm.Designer.cs">
+      <DependentUpon>BodyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\AddItemForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\AddItemForm.Designer.cs">
       <DependentUpon>AddItemForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Maneger\ConextManeger.cs" />
-    <Compile Include="Templates\DatabaseManeger.cs" />
+    <Compile Include="TableManeger\ITableManeger.cs" />
+    <Compile Include="Database\DatabaseManeger.cs" />
     <Compile Include="Form\SimpleForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\SimpleForm.Designer.cs">
       <DependentUpon>SimpleForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Maneger\MedicalChestManeger.cs" />
-    <Compile Include="Templates\Database.cs" />
+    <Compile Include="Database\MedicalChestManeger.cs" />
+    <Compile Include="Database\Database.cs" />
     <Compile Include="Templates\DataCollection.cs" />
     <Compile Include="Templates\Singleton.cs" />
     <Compile Include="Form\StartForm.cs">
@@ -82,15 +134,13 @@
     <Compile Include="Form\StartForm.Designer.cs">
       <DependentUpon>StartForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\TableManeger.cs" />
-    <Compile Include="Templates\IContext.cs" />
-    <Compile Include="Templates\IUserControl.cs" />
+    <Compile Include="TableManeger\TableManeger.cs" />
     <Compile Include="Templates\ErrorMessageLogger.cs" />
-    <Compile Include="Maneger\MedicalChest.cs" />
+    <Compile Include="Database\MedicalChest.cs" />
     <Compile Include="Table\MUser.cs" />
-    <Compile Include="Maneger\MUsers.cs" />
+    <Compile Include="TableManeger\MUsers.cs" />
     <Compile Include="MySqlDatabaseClient\MySqlDatabaseTreeViewFormatter.cs" />
-    <Compile Include="Maneger\ConnectionManeger.cs" />
+    <Compile Include="Connection\ConnectionManeger.cs" />
     <Compile Include="Form\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +149,24 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form\DrugDiseaseEditForm.resx">
+      <DependentUpon>DrugDiseaseEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DiseaseForm.resx">
+      <DependentUpon>DiseaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DrugDiseaseForm.resx">
+      <DependentUpon>DrugDiseaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\EditDrugForm.resx">
+      <DependentUpon>EditDrugForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DrugsForm.resx">
+      <DependentUpon>DrugsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\BodyForm.resx">
+      <DependentUpon>BodyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\AddItemFOrm.resx">
       <DependentUpon>AddItemForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -133,7 +201,30 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\deleteButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settingsButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\addButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\saveButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\saveButton1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\goBackButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refreshButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editButton.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

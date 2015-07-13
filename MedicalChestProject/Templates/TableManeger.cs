@@ -5,133 +5,174 @@ using LinqToDB;
 
 namespace MedicalChestProject
 {
-    public abstract class TableManeger<TDatabase, TTable> : ErrorMessageLogger<string>
+    public abstract class TableManeger<TDatabase, TTable> : ErrorMessageLogger<string>, ITableManeger<TTable>
         where TDatabase : DataConnection, new()
     {
-        public DataCollection<TTable> Data { get; set; }
+        protected const string somethingWentWrong = "Что-то пошло не так...";
+        protected const string changesSavedSuccessful = "Изменения cохранены успешно.";
+
+        protected List<TTable> Data { get; set; }
         protected List<TTable> UpdateList { get; set; }
         protected List<TTable> InsertList { get; set; }
         protected List<TTable> DeleteList { get; set; }
-        
+
+        public bool NeedSaveChanges { get; protected set; }
         public bool DataLoaded { get; protected set; }
 
-        public virtual DataCollection<TTable> GetData()
+        public virtual List<TTable> GetData()
         {
             if (!DataLoaded)
             {
-                LoadAll();
+                Load();
             }
             return Data;
         }
 
         protected virtual void Init()
         {
-            Data = new DataCollection<TTable>();
+            Data = new List<TTable>();
             UpdateList = new List<TTable>();
             InsertList = new List<TTable>();
             DeleteList = new List<TTable>();
-
-            Data.ItemAdded += DataItemAdded;
-            Data.ItemUpdated += DataItemUpdated;
-            Data.ItemRemoved += DataItemRemoved;
         }
 
-        private void DataItemRemoved(TTable obj)
+        protected virtual bool Update()
         {
-            DeleteList.Add(obj);
-        }
-        private void DataItemUpdated(TTable obj)
-        {
-            UpdateList.Add(obj);
-        }
-        private void DataItemAdded(TTable obj)
-        {
-            InsertList.Add(obj);
-        }
-
-        public abstract void LoadAll();
-        public virtual void SaveChanges()
-        {
-            Update();
-            Delete();
-            Insert();
-        }
-        public virtual void Update()
-        {
-            ExecuteQuery((database) =>
+            return (ExecuteQuery((database) =>
             {
-                foreach (TTable u in Data)
+                foreach (TTable u in UpdateList)
                 {
                     database.Update(u);
                 }
-                DeleteList.Clear();
-            });
+                UpdateList.Clear();
+            }));
         }
-        public virtual void Delete()
+        protected virtual bool Delete()
         {
-            ExecuteQuery((database) =>
-            {
-                foreach (TTable u in DeleteList)
-                {
-                    database.Delete(u);
-                }
-                DeleteList.Clear();
-            });
+            return (ExecuteQuery((database) =>
+             {
+                 foreach (TTable u in DeleteList)
+                 {
+                     database.Delete(u);
+                 }
+                 DeleteList.Clear();
+             }));
         }
-        public virtual void Insert()
+        protected virtual bool Insert()
         {
-            ExecuteQuery((database) =>
+            return (ExecuteQuery((database) =>
             {
                 foreach (TTable u in InsertList)
                 {
                     database.Insert(u);
                 }
                 InsertList.Clear();
-            });
+            }));
         }
-        public virtual void Clear()
-        {
-            Data.Clear();
-            InsertList.Clear();
-            DeleteList.Clear();
-            UpdateList.Clear();
-        }
-        public virtual void Reload()
-        {
-            Clear();
-            LoadAll();
-        }
-
-
-        protected virtual void ExecuteQuery(Action<TDatabase> query)
+        protected bool ExecuteQuery(Action<TDatabase> query)
         {
             using (var database = new TDatabase())
             {
                 try
                 {
                     query(database);
+                    return true;
                 }
                 catch (Exception ex)
                 {
+                    SendMessage(ex.Message);
                     SendError(ex.Message);
+                    return false;
                 }
             }
         }
-        protected virtual void ExecuteQuery(Action<TDatabase, object[]> query, object[] args)
+        protected bool ExecuteQuery(Action<TDatabase, object[]> query, object[] args)
         {
             using (var database = new TDatabase())
             {
                 try
                 {
                     query(database, args);
+                    return true;
                 }
                 catch (Exception ex)
                 {
+                    SendMessage(ex.Message);
                     SendError(ex.Message);
+                    return false;
                 }
             }
         }
 
+        public virtual void Clear()
+        {
+            Data.Clear();
+            InsertList.Clear();
+            DeleteList.Clear();
+            UpdateList.Clear();
+            DataLoaded = false;
+        }
+        public virtual void Reload()
+        {
+            Clear();
+            Load();
+            NeedSaveChanges = false;
+        }
+        public virtual void SaveChanges()
+        {
+            if (NeedSaveChanges)
+            {
+                bool error = false;
+                if (!Update()) { error = true; }
+                if (!Insert()) { error = true; }
+                if (!Delete()) { error = true; }
+                if (error) { SendMessage(somethingWentWrong); }
+                else { NeedSaveChanges = false; SendMessage(changesSavedSuccessful); }
+                Reload();
+            }
+        }
+        public abstract void Load();
+        public void Add(TTable item)
+        {
+            Data.Add(item);
+            InsertList.Add(item);
+            NeedSaveChanges = true;
+        }
+        public void Remove(TTable item)
+        {
+            try
+            {
+                if (InsertList.Contains(item))
+                {
+                    InsertList.Remove(item);
+                }
+                {
+                    Data.Remove(item);
+                    DeleteList.Add(item);
+                }
+                if(UpdateList.Contains(item))
+                {
 
+                }
+                NeedSaveChanges = true;
+            }
+            catch (Exception ex)
+            {
+                SendError(ex.Message);
+            }
+        }
+        public void Update(TTable oldItem, TTable newItem)
+        {
+            try
+            {
+                Data[Data.IndexOf(oldItem)] = newItem;
+                UpdateList.Add(newItem);
+                NeedSaveChanges = true;
+            }
+            catch (Exception ex)
+            {
+                SendError(ex.Message);
+            }
+        }
     }
 }

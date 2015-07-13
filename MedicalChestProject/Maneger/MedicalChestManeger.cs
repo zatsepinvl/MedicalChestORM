@@ -8,7 +8,10 @@ namespace MedicalChestProject
     public class MedicalChestManeger : DatabaseManeger<MedicalChestManeger,MedicalChest, MySqlDataProvider, MySqlConnection>
     {
         public MUsers Users { get; protected set; }
-
+        public Drugs Drugs { get; protected set; }
+        public Storages Storages { get; protected set; }
+        public AppTypes AppTypes { get; protected set; }
+        public DrugDiseases DrugDiseases { get; protected set; }
         protected MedicalChestManeger()
         {
             Init();
@@ -22,13 +25,23 @@ namespace MedicalChestProject
         protected override void InitTableManegers()
         {
             Users = new MUsers();
-            SingUpForPublisher(new ErrorMessageLogger<string>[] { Users });
+            Loggers.Add(Users);
+
+            Drugs = new Drugs();
+            Loggers.Add(Drugs);
+
+            Storages = new Storages();
+            Loggers.Add(Storages);
+
+            AppTypes = new AppTypes();
+            Loggers.Add(AppTypes);
+
+            DrugDiseases = new DrugDiseases();
+            Loggers.Add(DrugDiseases);
+
+            SingUpForPublisher(new ErrorMessageLogger<string>[] { Users, Drugs, Storages, AppTypes, DrugDiseases });
         }
 
-        public DataCollection<MUser> GetUsers()
-        {
-            return Users.GetData();
-        }
 
     }
 }

@@ -29,49 +29,53 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.logInButton = new System.Windows.Forms.Button();
             this.userComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(118, 183);
+            this.label1.Location = new System.Drawing.Point(98, 180);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(198, 20);
             this.label1.TabIndex = 3;
             this.label1.Text = "Выберите пользователя";
             // 
-            // button1
+            // logInButton
             // 
-            this.button1.Location = new System.Drawing.Point(66, 250);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(299, 69);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Войти";
-            this.button1.UseVisualStyleBackColor = true;
+            this.logInButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.logInButton.Location = new System.Drawing.Point(45, 243);
+            this.logInButton.Name = "logInButton";
+            this.logInButton.Size = new System.Drawing.Size(315, 55);
+            this.logInButton.TabIndex = 4;
+            this.logInButton.Text = "Войти";
+            this.logInButton.UseVisualStyleBackColor = true;
+            this.logInButton.Click += new System.EventHandler(this.LogInButtonClick);
             // 
             // userComboBox
             // 
+            this.userComboBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.userComboBox.FormattingEnabled = true;
-            this.userComboBox.Location = new System.Drawing.Point(66, 216);
+            this.userComboBox.Location = new System.Drawing.Point(45, 209);
             this.userComboBox.Name = "userComboBox";
-            this.userComboBox.Size = new System.Drawing.Size(299, 28);
+            this.userComboBox.Size = new System.Drawing.Size(315, 28);
             this.userComboBox.TabIndex = 5;
             // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(430, 493);
+            this.ClientSize = new System.Drawing.Size(402, 493);
             this.Controls.Add(this.userComboBox);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.logInButton);
             this.Controls.Add(this.label1);
             this.Name = "StartForm";
             this.Text = "StartForm";
             this.Load += new System.EventHandler(this.StartFormLoad);
             this.Controls.SetChildIndex(this.label1, 0);
-            this.Controls.SetChildIndex(this.button1, 0);
+            this.Controls.SetChildIndex(this.logInButton, 0);
             this.Controls.SetChildIndex(this.userComboBox, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -81,7 +85,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button logInButton;
         private System.Windows.Forms.ComboBox userComboBox;
     }
 }
